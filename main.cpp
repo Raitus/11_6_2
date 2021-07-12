@@ -14,42 +14,37 @@ void validation(std::string email) {
 	if (email[symbol]=='@' && !atSymbol) {
 	  if (count > 0 && count <= 64) {
 		if (symbol==email.length() - 1){
-		  std::cout << "No!";
 		  finalCheck = false;
 		  break;
 		}else{
 		  count = 0;
 		}
 	  } else {
-		std::cout << "No!";
 		finalCheck = false;
 		break;
 	  }
 	  atSymbol = true;
 	} else if (email[symbol]=='@' && atSymbol) {
-	  std::cout << "No!";
 	  finalCheck = false;
 	  break;
 	} else if (symbol==email.length() - 1 && count > 63 ) {
-	  std::cout << "No!";
 	  finalCheck = false;
 	  break;
 	} else if (email[symbol]=='.' && symbol!=0 && email[symbol - 1]=='.') {
-	  std::cout << "No!";
 	  finalCheck = false;
 	  break;
 	} else if (!checkSymbols(email[symbol])) {
-	  std::cout << "No!";
 	  finalCheck = false;
 	  break;
 	} else if (symbol==email.length() - 1 && !atSymbol) {
-	  std::cout << "No!";
 	  finalCheck = false;
 	  break;
 	}
   }
   if (finalCheck) {
 	std::cout << "Yes!";
+  }else{
+	std::cout << "No!";
   }
 }
 int main() {
