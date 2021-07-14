@@ -1,56 +1,48 @@
 #include <iostream>
 #include "string"
+
 bool checkSymbols(char symbol) {
-  if (symbol=='!' || (symbol >= 35 && symbol <= 39) || (symbol >= 42 && symbol <= 43) || (symbol >= 45 && symbol <= 57)
-	  || (symbol >= 65 && symbol <= 90) || (symbol >= 94 && symbol <= 126)) {
-	return true;
-  } else {
-	return false;
-  }
+  return (symbol=='!' || (symbol >= '#' && symbol <= 39) || (symbol >= '*' && symbol <= '+')
+	  || (symbol >= '-' && symbol <= '9') || (symbol >= 'A' && symbol <= 'Z') || (symbol >= '^' && symbol <= '~'));
 }
-void validation(std::string email) {
-  bool atSymbol = false, finalCheck = true;
-  for (int symbol = 0, count = 0; symbol < email.length(); symbol++, count++) {
-	if (email[symbol]=='@' && !atSymbol) {
+
+bool validation(std::string email) {
+  bool atSymbol = false;
+  for (int i = 0, count = 0; i < email.length(); i++, count++) {
+	if (email[i]=='@' && !atSymbol) {
 	  if (count > 0 && count <= 64) {
-		if (symbol==email.length() - 1){
-		  finalCheck = false;
-		  break;
-		}else{
+		if (i==email.length() - 1) {
+		  return false;
+		} else {
 		  count = 0;
 		}
 	  } else {
-		finalCheck = false;
-		break;
+		return false;
 	  }
 	  atSymbol = true;
-	} else if (email[symbol]=='@' && atSymbol) {
-	  finalCheck = false;
-	  break;
-	} else if (symbol==email.length() - 1 && count > 63 ) {
-	  finalCheck = false;
-	  break;
-	} else if (email[symbol]=='.' && symbol!=0 && email[symbol - 1]=='.') {
-	  finalCheck = false;
-	  break;
-	} else if (!checkSymbols(email[symbol])) {
-	  finalCheck = false;
-	  break;
-	} else if (symbol==email.length() - 1 && !atSymbol) {
-	  finalCheck = false;
-	  break;
+	} else if (email[i]=='@' && atSymbol) {
+	  return false;
+	} else if (i==email.length() - 1 && count > 63) {
+	  return false;
+	} else if (email[i]=='.' && i!=0 && email[i - 1]=='.') {
+	  return false;
+	} else if (!checkSymbols(email[i])) {
+	  return false;
+	} else if (i==email.length() - 1 && !atSymbol) {
+	  return false;
 	}
   }
-  if (finalCheck) {
-	std::cout << "Yes!";
-  }else{
-	std::cout << "No!";
-  }
+  return true;
 }
+
 int main() {
   std::string email;
   std::cout << "Input Email: ";
   std::getline(std::cin, email);
-  validation(email);
+  if (validation(email)) {
+	std::cout << "Yes!";
+  } else {
+	std::cout << "No!";
+  }
   return 0;
 }
